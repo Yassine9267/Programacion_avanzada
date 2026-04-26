@@ -8,6 +8,7 @@ import practica1.KNN;
 import practica1.Table;
 import practica1.*;
 import practica2.*;
+import practica3.EuclideanDistance;
 
 import java.io.File;
 import java.io.IOException;
@@ -97,7 +98,7 @@ class RecSysTest {
             testTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_test_withoutnames.csv");
             testItemNames = readNames(songsFolder + separator + "songs_test_names.csv");
 
-            algorithm = new KMeans(numClusters, numIterations, seed);
+            algorithm = new KMeans(numClusters, numIterations, seed, new EuclideanDistance());
             recSys = new RecSys(algorithm);
             recSys.train(trainTable);
             recSys.initialise(testTable, testItemNames);

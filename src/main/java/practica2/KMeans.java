@@ -1,6 +1,8 @@
 package practica2;
 
 import practica1.*;
+import practica3.Distance;
+
 import java.util.*;
 
 public class KMeans implements Algorithm<Double> {
@@ -9,15 +11,17 @@ public class KMeans implements Algorithm<Double> {
     private int numIteracions;
     private long seed;
     private List<Row> centroides;
+    private Distance distance;
 
-    public KMeans(int numClusters, int numIteracions, long seed) {
+    public KMeans(int numClusters, int numIteracions, long seed, Distance distance) {
         this.numClusters = numClusters;
         this.numIteracions = numIteracions;
         this.seed = seed;
         this.centroides = new ArrayList<>();
+        this.distance=distance;
     }
-
-    public void train(Table datos) throws InvalidClusterNumberException {
+    @Override
+    public void train(Table datos, Distance distance) throws InvalidClusterNumberException {
         if (numClusters > datos.getRowCount()) {
             throw new InvalidClusterNumberException(numClusters, datos.getRowCount());
         }
@@ -40,7 +44,7 @@ public class KMeans implements Algorithm<Double> {
                 double minDist = Double.MAX_VALUE;
                 int mejorCluster = -1;
                 for (int j = 0; j < centroides.size(); j++) {
-                    double distancia = distancia(punto.getData(), centroides.get(j).getData());
+                    double distancia = this.distance.calculateDistance(punto.getData(), centroides.get(j).getData());
                     if (distancia < minDist) {
                         minDist = distancia;
                         mejorCluster = j;

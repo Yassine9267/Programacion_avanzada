@@ -8,8 +8,6 @@ public class CSV {
 
     public Table readTable(String fileName) throws IOException {
         Table table = new Table();
-
-        // SVEN: las pruebas no pasarán cuando simplemente usamos "fileName"
         BufferedReader br = new BufferedReader(new FileReader("src/main/resources/"+fileName));
 
         String line = br.readLine();

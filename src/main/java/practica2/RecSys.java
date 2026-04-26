@@ -1,6 +1,8 @@
 package practica2;
 
 import practica1.Table;
+import practica3.EuclideanDistance;
+
 import java.util.*;
 
 public class RecSys {
@@ -15,7 +17,7 @@ public class RecSys {
     }
     public void train(Table trainData) {
         try {
-            algorithm.train(trainData);
+            algorithm.train(trainData, new EuclideanDistance());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

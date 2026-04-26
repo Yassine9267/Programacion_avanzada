@@ -1,11 +1,13 @@
 package practica2;
 
 import practica1.Table;
+import practica3.Distance;
+
 import java.util.List;
 
 public interface Algorithm<T> {
 
-    void train(Table data) throws Exception;
+    void train(Table data, Distance distance) throws Exception;
 
     Integer estimate(List<T> sample);
 }

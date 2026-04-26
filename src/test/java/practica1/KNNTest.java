@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import practica3.EuclideanDistance;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +24,7 @@ class KNNTest {
     void setUp() throws Exception {
         TableWithLabels iris = new CSV().readTableWithLabels("iris.csv");
         knn = new KNN();
-        knn.train(iris);
+        knn.train(iris, new EuclideanDistance());
     }
 
     @AfterEach

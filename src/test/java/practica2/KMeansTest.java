@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import practica1.CSV;
 import practica1.TableWithLabels;
+import practica3.EuclideanDistance;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,8 +29,8 @@ class KMeansTest {
     // TODO: En caso de manejar la excepción IOException en CSV, puedes eliminarla aquí
     void setUp() throws InvalidClusterNumberException, IOException {
         iris = new CSV().readTableWithLabels("iris.csv");
-        kMeans = new KMeans(irisClusters, numIterations, seed);
-        kMeans.train(iris);
+        kMeans = new KMeans(irisClusters, numIterations, seed, new EuclideanDistance());
+        kMeans.train(iris, new EuclideanDistance());
     }
 
     @AfterEach
@@ -59,8 +60,8 @@ class KMeansTest {
     @Test
     @DisplayName("KMeans train - more clusters than samples")
     void train_invalidClusters() {
-        kMeans = new KMeans(200, numIterations, seed);
-        Exception e = assertThrows(InvalidClusterNumberException.class, () -> kMeans.train(iris));
+        kMeans = new KMeans(200, numIterations, seed, new EuclideanDistance());
+        Exception e = assertThrows(InvalidClusterNumberException.class, () -> kMeans.train(iris, new EuclideanDistance()));
         // TODO: reemplazar getNumRows() con método equivalente, si hace falta
         System.out.println("Clusters: "+((InvalidClusterNumberException)e).getNumberOfCusters());
         assertTrue(((InvalidClusterNumberException)e).getNumberOfCusters() > iris.getNumRows());
