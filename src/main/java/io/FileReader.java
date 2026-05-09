@@ -4,14 +4,16 @@ import model.Table;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public abstract class FileReader<T extends Table> extends ReaderTemplate<T> {
 
     protected Scanner scanner;
 
-    public FileReader(T table, String source) {
-        super(table, source);
+    public FileReader(String source) {
+        super(source);
     }
 
     @Override
@@ -19,7 +21,7 @@ public abstract class FileReader<T extends Table> extends ReaderTemplate<T> {
         try {
             scanner = new Scanner(new File(source));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -36,5 +38,15 @@ public abstract class FileReader<T extends Table> extends ReaderTemplate<T> {
     @Override
     void closeSource() {
         scanner.close();
+    }
+    protected List<Double> parseRow(String data, int limit) {
+        String[] parts = data.split(",");
+        List<Double> row = new ArrayList<>();
+
+        for (int i = 0; i < limit; i++) {
+            row.add(Double.parseDouble(parts[i].trim()));
+        }
+
+        return row;
     }
 }

@@ -18,7 +18,7 @@ class CSVLabeledFileReaderTest {
 
     @BeforeEach
     void setUp() {
-        reader = new CSVLabeledFileReader("/home/itsyass/IdeaProjects/Programacion_avanzada/src/main/resources/iris.csv");
+        reader = new CSVLabeledFileReader("src/main/resources/iris.csv");
     }
 
     @AfterEach

@@ -1,6 +1,7 @@
 package algorithm;
 
 import distance.Distance;
+import distance.EuclideanDistance;
 import model.RowWithLabel;
 import model.Table;
 import model.TableWithLabels;
@@ -11,12 +12,18 @@ public class KNN implements Algorithm<Double> {
     private Distance distance;
     private TableWithLabels tabla;
 
-    @Override
-    public void train(Table data, Distance distance) throws Exception {
-        this.tabla = (TableWithLabels) data;
-        this.distance = distance;
+    public KNN(){
+        this.distance=new EuclideanDistance();
+    }
+    public KNN(Distance distance){
+        this.distance=distance;
     }
 
+    @Override
+    public void train(Table data) throws Exception {
+        this.tabla = (TableWithLabels) data;
+    }
+    @Override
     public Integer estimate(List<Double> sample) {
 
         double minDistance = Double.MAX_VALUE;

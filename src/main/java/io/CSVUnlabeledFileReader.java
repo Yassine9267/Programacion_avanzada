@@ -9,7 +9,16 @@ import java.util.List;
 public class CSVUnlabeledFileReader extends FileReader<Table> {
 
     public CSVUnlabeledFileReader(String s) {
-        super(new Table(), s);
+        super(s);
+        this.table=new Table();
+    }
+
+    @Override
+    void processData(String data) {
+        String[] parts = data.split(",");
+        List<Double> row = parseRow(data, parts.length);
+
+        table.addRow(new Row(row));
     }
 
     @Override
@@ -22,15 +31,5 @@ public class CSVUnlabeledFileReader extends FileReader<Table> {
         }
 
         table.setHeaders(headerList);
-    }
-
-    @Override
-    void processData(String data) {
-        String[] parts = data.split(",");
-        List<Double> row = new ArrayList<>();
-        for (int i = 0; i < parts.length; i++) {
-            row.add(Double.parseDouble(parts[i]));
-        }
-        table.addRow(new Row(row));
     }
 }

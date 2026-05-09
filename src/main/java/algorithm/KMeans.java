@@ -1,9 +1,11 @@
 package algorithm;
 
 import distance.Distance;
+import distance.EuclideanDistance;
 import exception.InvalidClusterNumberException;
 import model.Row;
 import model.Table;
+import model.TableWithLabels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,10 @@ public class KMeans implements Algorithm<Double> {
     private List<Row> centroides;
     private Distance distance;
 
+    public KMeans(int numClusters, int numIteracions, long seed) {
+        this(numClusters, numIteracions, seed, new EuclideanDistance());
+    }
+
     public KMeans(int numClusters, int numIteracions, long seed, Distance distance) {
         this.numClusters = numClusters;
         this.numIteracions = numIteracions;
@@ -24,9 +30,8 @@ public class KMeans implements Algorithm<Double> {
         this.centroides = new ArrayList<>();
         this.distance = distance;
     }
-
     @Override
-    public void train(Table datos, Distance distance) throws InvalidClusterNumberException {
+    public void train(Table datos) throws InvalidClusterNumberException {
         if (numClusters > datos.getRowCount()) {
             throw new InvalidClusterNumberException(numClusters, datos.getRowCount());
         }

@@ -25,7 +25,7 @@ class KNNTest {
     void setUp() throws Exception {
         TableWithLabels iris = new CSV().readTableWithLabels("iris.csv");
         knn = new KNN();
-        knn.train(iris, new EuclideanDistance());
+        knn.train(iris);
     }
 
     @AfterEach

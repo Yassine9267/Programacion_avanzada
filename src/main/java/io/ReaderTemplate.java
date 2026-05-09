@@ -18,8 +18,7 @@ public abstract class ReaderTemplate<T extends Table> {
 
     abstract String getNextData();
 
-    public ReaderTemplate(T table, String source) {
-        this.table = table;
+    public ReaderTemplate(String source) {
         this.source = source;
     }
 
@@ -34,10 +33,4 @@ public abstract class ReaderTemplate<T extends Table> {
         closeSource();
         return table;
     }
-
-    public ReaderTemplate(T table) {
-        this.table = table;
-    }
-
-
 }

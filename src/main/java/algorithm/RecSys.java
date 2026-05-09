@@ -2,12 +2,13 @@ package algorithm;
 
 import distance.EuclideanDistance;
 import exception.LikedItemNotFoundException;
+import javafx.scene.control.Tab;
 import model.Table;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecSys {
+public class RecSys<T extends Table>{
 
     private Algorithm<Double> algorithm;
     private Table testData;
@@ -18,14 +19,14 @@ public class RecSys {
         this.algorithm = algorithm;
         this.predictions = new ArrayList<>();
     }
-
-    public void train(Table trainData) {
+    public void train(T trainData) {
         try {
-            algorithm.train(trainData, new EuclideanDistance());
+            algorithm.train(trainData);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
     public void initialise(Table testData, List<String> testItemNames) {
         this.testData = testData;
@@ -55,4 +56,5 @@ public class RecSys {
         }
         return result;
     }
+
 }

@@ -10,8 +10,22 @@ import java.util.List;
 public class CSVLabeledFileReader extends FileReader<TableWithLabels> {
 
     public CSVLabeledFileReader(String s) {
-        super(new TableWithLabels(), s);
+        super(s);
+        this.table=new TableWithLabels();
     }
+
+    @Override
+    void processData(String data) {
+
+        String[] parts = data.split(",");
+
+        List<Double> row = parseRow(data, parts.length - 1);
+
+        String label = parts[parts.length - 1].trim();
+
+        table.addRow(new RowWithLabel(row, label));
+    }
+
 
     @Override
     void processHeaders(String headers) {
@@ -23,20 +37,5 @@ public class CSVLabeledFileReader extends FileReader<TableWithLabels> {
         }
 
         table.setHeaders(headerList);
-    }
-
-    @Override
-    void processData(String data) {
-        String[] parts = data.split(",");
-
-        List<Double> row = new ArrayList<>();
-
-        for (int i = 0; i < parts.length - 1; i++) {
-            row.add(Double.parseDouble(parts[i]));
-        }
-
-        String label = parts[parts.length - 1]; // 👈 clase
-
-        table.addRow(new RowWithLabel(row, label)); // 🔥 clave
     }
 }

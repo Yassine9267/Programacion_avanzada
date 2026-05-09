@@ -96,7 +96,7 @@ class RecSysTest {
             testTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_test_withoutnames.csv");
             testItemNames = readNames(songsFolder + separator + "songs_test_names.csv");
 
-            algorithm = new KMeans(numClusters, numIterations, seed, new EuclideanDistance());
+            algorithm = new KMeans(numClusters, numIterations, seed);
             recSys = new RecSys(algorithm);
             recSys.train(trainTable);
             recSys.initialise(testTable, testItemNames);
