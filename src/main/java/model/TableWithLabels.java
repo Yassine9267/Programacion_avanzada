@@ -27,4 +27,8 @@ public class TableWithLabels extends Table {
     public int getNumRows() {
         return labelsToIndex.size();
     }
+
+    public void registerLabel(String label){
+        labelsToIndex.putIfAbsent(label, labelsToIndex.size());
+    }
 }

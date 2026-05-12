@@ -24,6 +24,7 @@ public class CSVLabeledFileReader extends FileReader<TableWithLabels> {
         String label = parts[parts.length - 1].trim();
 
         table.addRow(new RowWithLabel(row, label));
+        table.registerLabel(label);
     }
 
 

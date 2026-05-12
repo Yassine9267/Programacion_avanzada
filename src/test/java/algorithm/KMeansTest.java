@@ -5,7 +5,7 @@ package algorithm;
 
 import distance.EuclideanDistance;
 import exception.InvalidClusterNumberException;
-import io.CSV;
+import io.CSVLabeledFileReader;
 import model.TableWithLabels;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ class KMeansTest {
     @BeforeEach
         // TODO: En caso de manejar la excepción IOException en CSV, puedes eliminarla aquí
     void setUp() throws InvalidClusterNumberException, IOException {
-        iris = new CSV().readTableWithLabels("iris.csv");
+        iris = new CSVLabeledFileReader("iris.csv").readTableFromSource();
         kMeans = new KMeans(irisClusters, numIterations, seed);
         kMeans.train(iris);
     }

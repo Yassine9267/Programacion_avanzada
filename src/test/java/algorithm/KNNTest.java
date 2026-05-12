@@ -3,7 +3,7 @@ package algorithm;// TODO: Reemplazar por el nombre de tu paquete
 // TODO: Reemplazar por los imports de tu proyecto
 
 import distance.EuclideanDistance;
-import io.CSV;
+import io.CSVLabeledFileReader;
 import model.TableWithLabels;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +23,7 @@ class KNNTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        TableWithLabels iris = new CSV().readTableWithLabels("iris.csv");
+        TableWithLabels iris = new CSVLabeledFileReader("iris.csv").readTableFromSource();
         knn = new KNN();
         knn.train(iris);
     }

@@ -18,7 +18,7 @@ class CSVUnlabeledFileReaderTest {
 
     @BeforeEach
     void setUp() {
-        reader = new CSVUnlabeledFileReader("src/main/resources/miles_dollars.csv");
+        reader = new CSVUnlabeledFileReader("miles_dollars.csv");
     }
 
     @AfterEach

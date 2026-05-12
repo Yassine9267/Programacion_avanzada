@@ -4,7 +4,7 @@ package algorithm;
 
 import distance.EuclideanDistance;
 import exception.LikedItemNotFoundException;
-import io.CSV;
+import io.CSVLabeledFileReader;
 import model.Table;
 import org.junit.jupiter.api.*;
 
@@ -47,8 +47,8 @@ class RecSysTest {
         @BeforeEach
             // TODO: añadir o eliminar excepciones según tu implementación
         void setUp() throws IOException, URISyntaxException {
-            trainTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_train.csv");
-            testTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_test.csv");
+            trainTable = new CSVLabeledFileReader(songsFolder + separator + "songs_train.csv").readTableFromSource();
+            testTable = new CSVLabeledFileReader(songsFolder + separator + "songs_test.csv").readTableFromSource();
             testItemNames = readNames(songsFolder + separator + "songs_test_names.csv");
 
             algorithm = new KNN();
@@ -92,8 +92,8 @@ class RecSysTest {
         @BeforeEach
             // TODO: añadir o eliminar excepciones según tu implementación
         void setUp() throws IOException, URISyntaxException {
-            trainTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_train_withoutnames.csv");
-            testTable = new CSV().readTableWithLabels(songsFolder + separator + "songs_test_withoutnames.csv");
+            trainTable = new CSVLabeledFileReader(songsFolder + separator + "songs_train_withoutnames.csv").readTableFromSource();
+            testTable = new CSVLabeledFileReader(songsFolder + separator + "songs_test_withoutnames.csv").readTableFromSource();
             testItemNames = readNames(songsFolder + separator + "songs_test_names.csv");
 
             algorithm = new KMeans(numClusters, numIterations, seed);

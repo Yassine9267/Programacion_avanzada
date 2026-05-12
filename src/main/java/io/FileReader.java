@@ -19,7 +19,7 @@ public abstract class FileReader<T extends Table> extends ReaderTemplate<T> {
     @Override
     void openSource(String source) {
         try {
-            scanner = new Scanner(new File(source));
+            scanner = new Scanner(new File("src/main/resources/"+source));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
