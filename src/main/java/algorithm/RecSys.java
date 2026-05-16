@@ -10,12 +10,12 @@ import java.util.List;
 
 public class RecSys<T extends Table>{
 
-    private Algorithm<Double> algorithm;
+    private Algorithm<T, List<Double>, Integer> algorithm;
     private Table testData;
     private List<String> testItemNames;
     private List<Integer> predictions;
 
-    public RecSys(Algorithm<Double> algorithm) {
+    public RecSys(Algorithm<T, List<Double>, Integer> algorithm) {
         this.algorithm = algorithm;
         this.predictions = new ArrayList<>();
     }

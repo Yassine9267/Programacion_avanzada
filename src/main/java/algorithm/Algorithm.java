@@ -6,9 +6,9 @@ import model.TableWithLabels;
 
 import java.util.List;
 
-public interface Algorithm<T> {
+public interface Algorithm<T extends Table, M, N> {
 
-    void train(Table data) throws Exception;
+    void train(T data) throws Exception;
 
-    Integer estimate(List<T> sample);
+    N estimate(M sample);
 }

@@ -8,7 +8,7 @@ import model.TableWithLabels;
 
 import java.util.List;
 
-public class KNN implements Algorithm<Double> {
+public class KNN implements Algorithm<TableWithLabels, List<Double>, Integer> {
     private Distance distance;
     private TableWithLabels tabla;
 
@@ -20,8 +20,8 @@ public class KNN implements Algorithm<Double> {
     }
 
     @Override
-    public void train(Table data) throws Exception {
-        this.tabla = (TableWithLabels) data;
+    public void train(TableWithLabels data) throws Exception {
+        this.tabla = data;
     }
     @Override
     public Integer estimate(List<Double> sample) {
