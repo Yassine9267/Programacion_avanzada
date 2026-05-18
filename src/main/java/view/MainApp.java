@@ -62,7 +62,7 @@ public class MainApp extends Application {
         Button recommend = new Button("Recommend...");
         recommend.setDisable(true);
 
-        // ── VALIDACIÓN: habilitar solo si todo está seleccionado ──
+        //habilitar si solo esta seleccionado
         Runnable checkReady = () -> {
             boolean songSelected = listaViewCanciones.getSelectionModel()
                     .getSelectedItem() != null;
@@ -78,7 +78,7 @@ public class MainApp extends Application {
         distancias.selectedToggleProperty()
                 .addListener((obs, old, nuevo) -> checkReady.run());
 
-        // ── ACCIÓN DEL BOTÓN: abrir segunda ventana ──
+        //abrir segunda ventana
         recommend.setOnAction(e -> {
             String song = listaViewCanciones.getSelectionModel().getSelectedItem();
             boolean byFeatures = recomendacionSongF.isSelected();
