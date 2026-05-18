@@ -6,12 +6,12 @@ public class InvalidClusterNumberException extends Exception {
     private int numberOfData;
 
     public InvalidClusterNumberException(int numClusters, int numberOfData) {
-        super("Número de clusters inválido: " + numClusters);
+        super("Invalid number of clusters: " + numClusters);
         this.numClusters = numClusters;
         this.numberOfData = numberOfData;
     }
 
-    public int getNumberOfCusters() {
+    public int getNumberOfClusters() {
         return numClusters;
     }
 

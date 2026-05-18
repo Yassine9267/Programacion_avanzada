@@ -1,8 +1,6 @@
 package algorithm;
 
-import distance.EuclideanDistance;
 import exception.LikedItemNotFoundException;
-import javafx.scene.control.Tab;
 import model.Table;
 
 import java.util.ArrayList;
@@ -33,9 +31,9 @@ public class RecSys<T extends Table>{
         this.testItemNames = testItemNames;
         this.predictions = new ArrayList<>();
         for (int i = 0; i < testData.getRowCount(); i++) {
-            List<Double> fila = testData.getRowAt(i).getData();
-            int cluster = algorithm.estimate(fila);
-            predictions.add(cluster);
+            List<Double> row = testData.getRowAt(i).getData();
+            int prediction = algorithm.estimate(row);
+            predictions.add(prediction);
         }
     }
 
@@ -46,10 +44,10 @@ public class RecSys<T extends Table>{
         }
         List<String> result = new ArrayList<>();
         int index = testItemNames.indexOf(nameLikedItem);
-        int clusterObjetivo = predictions.get(index);
+        int targetCluster = predictions.get(index);
         for (int i = 0; i < predictions.size(); i++) {
             if (i == index) continue;
-            if (predictions.get(i) == clusterObjetivo) {
+            if (predictions.get(i).equals(targetCluster)) {
                 result.add(testItemNames.get(i));
             }
             if (result.size() == numRecommendations) break;

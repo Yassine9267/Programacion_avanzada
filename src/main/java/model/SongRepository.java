@@ -1,17 +1,14 @@
-package controller;
+package model;
 
 import io.CSVLabeledFileReader;
 import io.CSVUnlabeledFileReader;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Row;
-import model.Table;
-import model.TableWithLabels;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SongRepository {
@@ -22,11 +19,11 @@ public class SongRepository {
         }
     }
 
-    public TableWithLabels leerTablaLabel(String ruta){
+    public TableWithLabels readLabeledTable(String ruta){
         CSVLabeledFileReader reader=new CSVLabeledFileReader(ruta);
         return reader.readTableFromSource();
     }
-    public Table leerTablaUnlabel(String ruta){
+    public Table readUnlabeledTable(String ruta){
         CSVUnlabeledFileReader reader=new CSVUnlabeledFileReader(ruta);
         return reader.readTableFromSource();
     }

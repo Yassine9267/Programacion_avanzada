@@ -19,8 +19,9 @@ public abstract class FileReader<T extends Table> extends ReaderTemplate<T> {
     @Override
     void openSource(String source) {
         try {
-            scanner = new Scanner(new File("src/main/resources/"+source));
-        } catch (FileNotFoundException e) {
+            var url = getClass().getClassLoader().getResource(source);
+            scanner = new Scanner(new File(url.toURI()));
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

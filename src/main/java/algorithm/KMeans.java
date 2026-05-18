@@ -5,7 +5,6 @@ import distance.EuclideanDistance;
 import exception.InvalidClusterNumberException;
 import model.Row;
 import model.Table;
-import model.TableWithLabels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,99 +13,92 @@ import java.util.Random;
 public class KMeans implements Algorithm<Table, List<Double>, Integer> {
 
     private int numClusters;
-    private int numIteracions;
+    private int numIterations;
     private long seed;
-    private List<Row> centroides;
+    private List<Row> centroids;
     private Distance distance;
 
-    public KMeans(int numClusters, int numIteracions, long seed) {
-        this(numClusters, numIteracions, seed, new EuclideanDistance());
+    public KMeans(int numClusters, int numIterations, long seed) {
+        this(numClusters, numIterations, seed, new EuclideanDistance());
     }
 
-    public KMeans(int numClusters, int numIteracions, long seed, Distance distance) {
+    public KMeans(int numClusters, int numIterations, long seed, Distance distance) {
         this.numClusters = numClusters;
-        this.numIteracions = numIteracions;
+        this.numIterations = numIterations;
         this.seed = seed;
-        this.centroides = new ArrayList<>();
+        this.centroids = new ArrayList<>();
         this.distance = distance;
     }
     @Override
-    public void train(Table datos) throws InvalidClusterNumberException {
-        if (numClusters > datos.getRowCount()) {
-            throw new InvalidClusterNumberException(numClusters, datos.getRowCount());
+    public void train(Table data) throws InvalidClusterNumberException {
+        if (numClusters > data.getRowCount()) {
+            throw new InvalidClusterNumberException(numClusters, data.getRowCount());
         }
+        initializeCentroids(data);
+        for (int iter = 0; iter < numIterations; iter++) {
+            List<List<Row>> clusters = assignToClusters(data);
+            updateCentroids(clusters);
+        }
+    }
+
+    private void initializeCentroids(Table data) {
         Random random = new Random(seed);
-        List<Integer> usados = new ArrayList<>();
-        while (centroides.size() < numClusters) {
-            int indice = random.nextInt(datos.getRowCount());
-            if (!usados.contains(indice)) {
-                usados.add(indice);
-                centroides.add(new Row(new ArrayList<>(datos.getRowAt(indice).getData())));
-            }
-        }
-        for (int iter = 0; iter < numIteracions; iter++) {
-            List<List<Row>> clusters = new ArrayList<>();
-            for (int i = 0; i < numClusters; i++) {
-                clusters.add(new ArrayList<>());
-            }
-            for (int i = 0; i < datos.getRowCount(); i++) {
-                Row punto = datos.getRowAt(i);
-                double minDist = Double.MAX_VALUE;
-                int mejorCluster = -1;
-                for (int j = 0; j < centroides.size(); j++) {
-                    double distancia = this.distance.calculateDistance(punto.getData(), centroides.get(j).getData());
-                    if (distancia < minDist) {
-                        minDist = distancia;
-                        mejorCluster = j;
-                    }
-                }
-
-                clusters.get(mejorCluster).add(punto);
-            }
-            for (int i = 0; i < numClusters; i++) {
-                List<Row> cluster = clusters.get(i);
-                if (cluster.isEmpty()) continue;
-                centroides.set(i, calcularMedia(cluster));
+        List<Integer> used = new ArrayList<>();
+        while (centroids.size() < numClusters) {
+            int index = random.nextInt(data.getRowCount());
+            if (!used.contains(index)) {
+                used.add(index);
+                centroids.add(new Row(new ArrayList<>(data.getRowAt(index).getData())));
             }
         }
     }
 
-    private double distancia(List<Double> a, List<Double> b) {
-        double suma = 0;
-        for (int i = 0; i < a.size(); i++) {
-            double diff = a.get(i) - b.get(i);
-            suma += diff * diff;
+    private List<List<Row>> assignToClusters(Table data) {
+        List<List<Row>> clusters = new ArrayList<>();
+        for (int i = 0; i < numClusters; i++) clusters.add(new ArrayList<>());
+        for (int i = 0; i < data.getRowCount(); i++) {
+            Row point = data.getRowAt(i);
+            int nearest = findNearestCentroid(point.getData());
+            clusters.get(nearest).add(point);
         }
-        return Math.sqrt(suma);
+        return clusters;
     }
 
-    private Row calcularMedia(List<Row> puntos) {
-        int dimensiones = puntos.get(0).getData().size();
-        List<Double> suma = new ArrayList<>();
-        for (int i = 0; i < dimensiones; i++) {
-            suma.add(0.0);
-        }
-        for (Row r : puntos) {
-            for (int i = 0; i < dimensiones; i++) {
-                suma.set(i, suma.get(i) + r.getData().get(i));
-            }
-        }
-        for (int i = 0; i < dimensiones; i++) {
-            suma.set(i, suma.get(i) / puntos.size());
-        }
-        return new Row(suma);
-    }
-
-    public Integer estimate(List<Double> dato) {
+    private int findNearestCentroid(List<Double> point) {
         double minDist = Double.MAX_VALUE;
-        int mejorCluster = -1;
-        for (int i = 0; i < centroides.size(); i++) {
-            double distancia = distancia(dato, centroides.get(i).getData());
-            if (distancia < minDist) {
-                minDist = distancia;
-                mejorCluster = i;
+        int nearest = -1;
+        for (int j = 0; j < centroids.size(); j++) {
+            double dist = distance.calculateDistance(point, centroids.get(j).getData());
+            if (dist < minDist) { minDist = dist; nearest = j; }
+        }
+        return nearest;
+    }
+
+    private void updateCentroids(List<List<Row>> clusters) {
+        for (int i = 0; i < numClusters; i++) {
+            if (!clusters.get(i).isEmpty())
+                centroids.set(i, calculateMean(clusters.get(i)));
+        }
+    }
+
+    private Row calculateMean(List<Row> points) {
+        int dimensions = points.get(0).getData().size();
+        List<Double> sum = new ArrayList<>();
+        for (int i = 0; i < dimensions; i++) {
+            sum.add(0.0);
+        }
+        for (Row r : points) {
+            for (int i = 0; i < dimensions; i++) {
+                sum.set(i, sum.get(i) + r.getData().get(i));
             }
         }
-        return mejorCluster;
+        for (int i = 0; i < dimensions; i++) {
+            sum.set(i, sum.get(i) / points.size());
+        }
+        return new Row(sum);
+    }
+
+    public Integer estimate(List<Double> sample) {
+        return findNearestCentroid(sample);
     }
 }

@@ -5,7 +5,7 @@ public class LikedItemNotFoundException extends Exception {
     private String item;
 
     public LikedItemNotFoundException(String item) {
-        super("Item no encontrado: " + item);
+        super("Item not found: " + item);
         this.item = item;
     }
 

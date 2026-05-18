@@ -9,9 +9,9 @@ import java.util.List;
 
 public class CSVLabeledFileReader extends FileReader<TableWithLabels> {
 
-    public CSVLabeledFileReader(String s) {
-        super(s);
-        this.table=new TableWithLabels();
+    public CSVLabeledFileReader(String source) {
+        super(source);
+        this.table = new TableWithLabels();
     }
 
     @Override
@@ -30,13 +30,11 @@ public class CSVLabeledFileReader extends FileReader<TableWithLabels> {
 
     @Override
     void processHeaders(String headers) {
-        String[] labels = headers.split(",");
-
+        String[] parts = headers.split(",");
         List<String> headerList = new ArrayList<>();
-        for (int i = 0; i < labels.length - 1; i++) {
-            headerList.add(labels[i].trim());
+        for (int i = 0; i < parts.length - 1; i++) {
+            headerList.add(parts[i].trim());
         }
-
         table.setHeaders(headerList);
     }
 }
